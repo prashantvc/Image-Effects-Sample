@@ -42,15 +42,14 @@ namespace ImageEffects
 			if (item.ItemId == Resource.Id.tint || item.ItemId == Resource.Id.duotone) {
 				CurrentEffect = Resource.Id.none;
 			} else {
-
 				CurrentEffect = item.ItemId;
 			}
+
+			ActionBar.Title = GetTitleForEffect (item);
 
 			_effectView.RequestRender ();
 			return true;
 		}
-
-		int CurrentEffect { get; set; }
 
 		TextureRenderer Renderer {
 			get { return _textureRenderer ?? (_textureRenderer = new TextureRenderer ()); }
@@ -259,6 +258,14 @@ namespace ImageEffects
 				_effect.SetParameter ("scale", .5f);
 				break;
 			}
+		}
+
+		int CurrentEffect { get; set; }
+
+		static string GetTitleForEffect (IMenuItem item)
+		{
+			string menuName = ((Java.Lang.String)item.TitleFormatted).ToString ();
+			return string.Format ("Effect: {0}", menuName);
 		}
 
 		GLSurfaceView _effectView;
